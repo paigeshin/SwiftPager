@@ -181,6 +181,37 @@ struct PagerTabView<Content: View, Label: View>: View {
     }
 }
 
+struct PageHelper_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
+
+struct TabPreferenceKey: PreferenceKey {
+    static var defaultValue: CGRect = .init()
+    static func reduce(value: inout CGRect, nextValue: () -> CGRect) {
+        value = nextValue()
+    }
+}
+
+extension View {
+    
+    func pageLabel() -> some View {
+        self
+            .frame(maxWidth: .infinity, alignment: .center)
+    }
+    
+    func pageView(ignoresSafeArea: Bool = false, edges: Edge.Set = []) -> some View {
+        self
+            .frame(width: getScreenBounds().width, alignment: .center)
+            .ignoresSafeArea(ignoresSafeArea ? .container : .init(), edges: edges)
+    }
+    
+    func getScreenBounds() -> CGRect {
+        return UIScreen.main.bounds
+    }
+    
+}
 ```
 
 ### Usage
